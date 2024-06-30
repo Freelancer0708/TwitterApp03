@@ -13,8 +13,10 @@ const NavBar = () => {
             <Link href="/" className='navbtn'>Home</Link>
             {isAuthenticated ? (
                 <>
-                    <span className='navbtn'>Welcome, {user?.username}</span>
-                    <button onClick={logout} className='navbtn'>Logout</button>
+                    <div className='navstate'>
+                        <span className='navbtn'>Welcome, {user?.username}</span>
+                        <button onClick={logout} className='navbtn'>Logout</button>
+                    </div>
                 </>
             ) : (
                 <Link href="/login" className='navbtn'>Login</Link>
@@ -38,11 +40,19 @@ const AuthGuard = ({ children }: { children: React.ReactNode }) => {
 
 export default function App({ Component, pageProps }: AppProps) {
     return (
-        <AuthProvider>
-            <NavBar />
-            <AuthGuard>
-                <Component {...pageProps} />
-            </AuthGuard>
-        </AuthProvider>
+        <>
+            <AuthProvider>
+                <header>
+                    <NavBar />
+                </header>
+                <main>
+                    <div className='inner'>
+                        <AuthGuard>
+                            <Component {...pageProps} />
+                        </AuthGuard>
+                    </div>
+                </main>
+            </AuthProvider>
+        </>
     );
 }
